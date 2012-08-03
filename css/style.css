@@ -1,0 +1,176 @@
+/* 
+    Document   : style
+    Created on : Jul 21, 2012, 7:55:51 PM
+    Author     : César Bolaños [cbolanos]
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+body {
+    background: #BABAC0;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    color: #333;
+}
+
+#container {
+    background: white;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    margin: 0 auto;
+    width: 900px;
+}
+
+#header {
+    background: #F3F6FB url(../img/banner-900x150.jpg) no-repeat;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    height: 190px;
+    position: relative;
+    z-index: 200;
+}
+
+#corpse {
+    background: #E3E7EE;
+    height: 400px;
+    position: relative;
+    z-index: 200;
+}
+
+#nav {
+    clear: left;
+    height: 48px;
+    left: 0;
+    position: absolute;
+    top: 150px;
+}
+
+#nav ul {
+    float: left;
+    list-style: none;    
+    margin: 0;
+    padding: 0;
+}
+
+#nav li {
+    display: inline;
+    float: left;
+    margin: 0 1px 0 0;
+    padding: 0;
+    position: relative;
+    z-index: 100;
+}
+
+#nav a {
+    background: #000 url(../img/bright_094.gif) no-repeat right top;
+    border: 0;
+    display: block;
+    float: left;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+}
+
+#nav a span {
+    background: url(../img/bleft_094.gif) no-repeat left top;
+    color: #000;
+    display: block;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 40px;
+    padding: 0 45px 0 13px;
+}
+
+#nav a:hover
+/*, #nav li.item_active a */
+{
+    background-position: right bottom;
+}
+
+#nav a:hover span
+/*, #nav li.item_active a span */
+{
+    background-position: left bottom;
+    color: #FFF;
+    font-weight: 700;
+    font-style: normal;
+    text-decoration:none;
+}
+
+#user {
+    clear: left;
+    right: 0;
+    position: absolute;
+    top: 150px;
+}
+
+#user ul {
+    list-style: none;    
+    margin: 0;
+    padding: 0;
+}
+
+#user li {
+    display: inline;
+    float: right;
+    margin: 0 -35px 0 0;
+    padding: 0;
+    position: relative;
+    z-index: 100;
+}
+
+#user a {
+    border: 0;
+    display: block;
+    float: right;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+}
+
+#user li a span {
+    color: #000;
+    display: block;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 40px;
+    padding: 0 35px 0 13px;
+}
+
+#bar {
+    background: url(../img/bar.png) repeat right;
+    height: 7px;
+}
+
+.claro-icon {
+    background: #E5E9F0 url(../img/claro-48x48.png) no-repeat left !important;
+}
+
+.movistar-icon {
+    background: #E5E9F0 url(../img/movistar-48x48.png) no-repeat left !important;
+}
+
+/*.x-panel-header {
+    background: #E5E9F0;
+    border-color: white;
+    margin: 0 10px 0 0;
+    padding: 0;
+    text-align: right;
+}
+
+.x-panel-header-text {
+    color: #000;
+    font: 11px Arial, Helvetica, sans-serif;
+    font-weight: 700;
+}
+
+.x-panel-body {
+    background-color: white;
+    border-color: white;
+}*/
