@@ -96,12 +96,12 @@ var gridpanel = Ext.create('Ext.grid.Panel', {
         xtype: 'button',
         handler: function() {
             if (!isStoreEmpty()) {
-                Ext.ux.exporter.Exporter.exportStore(Ext.data.StoreManager.lookup('telephoneStore'), 'excel', {
-                    downloadImage: '../img/download.png',
-                    downloadName: 'download',
-                    height: 22,
-                    swfPath: '../ux/exporter/flash/downloadify.swf',
-                    width: 62
+                Ext.Ajax.request({
+                   method: 'GET',
+                   params: {
+                       a: getStoreContent()
+                   },
+                   url: '../phpcode/excelexporter.php'
                 });
             } else
                 Ext.Msg.alert('Env&iacuteo de Mensajes', 'No hay datos para la exportaci&oacuten');
@@ -128,12 +128,7 @@ var sendmessagepanel = new Ext.form.Panel({
     buttons: [{
         text: 'Enviar',
         handler: function() {
-            var content = '';
             if (!isStoreEmpty()) {
-                store.each(function(record) {
-                    content = content + '|' + record.get('phone') + '->' + record.get('message');
-                });
-                
                 Ext.create('Ext.window.Window', {
                     items: [{
                         xtype: 'button',
@@ -148,7 +143,7 @@ var sendmessagepanel = new Ext.form.Panel({
                         xtype: 'button',
                         cls: 'movistar-icon',
                         handler: function() {
-                            sendMessageRequest(content, 'movistar');
+                            sendMessageRequest(getStoreContent(), 'movistar');
                         },
                         height: 50,
                         text: 'Movistar',
@@ -179,6 +174,14 @@ function isStoreEmpty() {
         return false;
     else
         return true;
+}
+
+function getStoreContent() {
+    var content = '';
+    store.each(function(record) {
+        content = content + '|' + record.get('phone') + '->' + record.get('message');
+    });
+    return content;
 }
 
 function sendMessageRequest(content, company) {
