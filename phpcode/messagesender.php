@@ -3,9 +3,9 @@
 /**
  * @author: César Bolaños [cbolanos]
  */
-require_once '/class/ClaroMessageSender.php';
-require_once '/class/MovistarMessageSender.php';
-require_once '/class/MessageSender.php';
+require_once './class/ClaroMessageSender.php';
+require_once './class/MovistarMessageSender.php';
+require_once './class/MessageSender.php';
 
 $content = explode('|', $_GET['b']);
 $recordnbr = count($content) - 1;
