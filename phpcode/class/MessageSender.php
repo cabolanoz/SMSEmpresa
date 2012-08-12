@@ -5,32 +5,42 @@
  */
 require_once 'DBConnection.php';
 
+require_once dirname(__FILE__) . '/../util/Logger.php';
+
 class MessageSender {
 
-    private $phone;
-    private $message;
-    private $company;
-
-    function __construct($_phone, $_message, $_company) {
-        $this->phone = $_phone;
-        $this->message = $_message;
-        $this->company = $_company;
-    }
-
-    function insertMessage() {
-        $sql = "INSERT INTO enviomensaje (numerotelefono, mensaje, fechaenvio, compania) VALUES ('" .
-                '505' . $this->phone . "', '" .
-                $this->message . "', '" .
-                date('d/m/y H:i:s') . "', '" .
-                $this->company . "');";
-
-        $clazz = new DBConnection('localhost', 'root', '');
-        $connection = $clazz->getConnection();
+    
+   public function  insertMessages($datas,$company) {
         
-        if (mysql_query($sql, $connection))
-            return true;
-        else
+        Logger::info('Entering inserMessages');
+        
+        $dbh=DBConnection::getInstance();
+        
+        Logger::info('Connection object ');
+        
+        try { 
+            
+        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $dbh->beginTransaction();
+             
+        foreach($datas as $data ){
+        $sql = "INSERT INTO enviomensaje (numerotelefono, mensaje, fechaenvio, compania) VALUES ('" .
+                '505' . $data->phone . "', '" .
+                $data->message . "', '" .
+                date('d/m/y H:i:s') . "', '" .
+                $company . "');";
+        
+                $dbh->exec($sql);   
+        }
+        
+         
+        $dbh->commit();
+        }catch (Exception $e) {
+            $dbh->rollBack();
             return false;
+        }
+        
+        return true;
     }
 
 }

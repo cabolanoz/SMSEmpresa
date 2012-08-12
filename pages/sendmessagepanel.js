@@ -189,8 +189,8 @@ function sendMessageRequest(content, company) {
         },
         method: 'GET',
         params: {
-            a: company,
-            b: content  
+            company_type: company,
+            datas: content  
         },
         success: function(o) {
             var response = Ext.decode(o.responseText);

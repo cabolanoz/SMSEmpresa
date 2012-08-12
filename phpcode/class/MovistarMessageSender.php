@@ -1,31 +1,25 @@
 <?php
 
 /**
- * @author: César Bolaños [cbolanos]
+ * @author: Cesar Bolaños [cbolanos]
  */
 require_once dirname(__FILE__) . '/../util/property.php';
 
 class MovistarMessageSender {
 
-    private $phonenumber;
-    private $message;
 
-    function __construct($_phonenumber, $_message) {
-        $this->phonenumber = $_phonenumber;
-        $this->message = $_message;
-    }
-
-    function sendMessage() {
+    function sendMessage($phonenumber, $message) {
+        
         global $property;
 
         $request = new HttpRequest($property['MOVISTAR']['server'], HttpRequest::METH_GET);
         $request->addQueryData(array('shortcode' => $property['MOVISTAR']['shortcode'],
-            'msisdn' => $property['MOVISTAR']['msisdn'] . $this->phonenumber,
+            'msisdn' => $property['MOVISTAR']['msisdn'] . $phonenumber,
             'telcoid' => $property['MOVISTAR']['telcoid'],
             'encoding' => $property['MOVISTAR']['encoding'],
             'smspart' => $property['MOVISTAR']['smspart'],
             'udh' => $property['MOVISTAR']['udh'],
-            'body' => array($this->message),
+            'body' => array($message),
             'systemID' => $property['MOVISTAR']['systemID']));
 
         try {

@@ -5,31 +5,16 @@
  */
 class DBConnection {
     
-    public static $connection = null;
-    
-    private $defaulthostname = "localhost";
-    private $defaultusername = "root";
-    private $defaultpassword = "";
-    private $defaultdatabase = "smsempresa";
-    
-    private $hostname;
-    private $username;
-    private $password;
-    
-    function __construct($_hostname, $_username, $_password) {
-        $this->hostname = !isset($_hostname) ? $this->defaulthostname : $_hostname;
-        $this->username = !isset($_username) ? $this->defaultusername : $_username;
-        $this->password = !isset($_password) ? $this->defaultpassword : $_password;
-    }
-    
-    function getConnection() {
-        if (!isset($this->connection)) {
-            $this->connection = mysql_connect($this->hostname, $this->username, $this->password);
-            mysql_select_db($this->defaultdatabase, $this->connection);
-        }
+    public static $instance;
+   
+ 
+    public static function getInstance($hostname='localhost',$databasename='smsempresa',$username='root',$password=''){
+        if(!isset(self::$instance))
+            self::$instance=new PDO('mysql:host=localhost;dbname=smsempresa', 'root', '');
         
-        return $this->connection;
+        return self::$instance;
     }
+    
 }
 
 ?>
