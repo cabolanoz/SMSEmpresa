@@ -3,6 +3,11 @@
 /**
  * @author: César Bolaños [cbolanos]
  */
+session_start();
+if (!isset($_SESSION['user']) && !isset($_SESSION['password'])) {
+    header('Location: ../index.php');
+    exit();
+}
 ?>
 <html>
     <head>
@@ -14,6 +19,7 @@
         <script src="../js/bootstrap.js" type="text/javascript"></script>
         <script src="welcomepanel.js" type="text/javascript"></script>
         <script src="sendmessagepanel.js" type="text/javascript"></script>
+        <script src="reportpanel.js" type="text/javascript"></script>
         <script src="../ux/exporter/Exporter.js" type="text/javascript"></script>
         <script src="../ux/exporter/Button.js" type="text/javascript"></script>
         <script src="../ux/exporter/downloadify.min.js" type="text/javascript"></script>
@@ -27,8 +33,84 @@
                         centerpanel.add(welcomepanel);
                     else if (val == 1)
                         centerpanel.add(sendmessagepanel);
+                    else if (val == 2)
+                        centerpanel.add(reportpanel);
                     centerpanel.doLayout();
                     centerpanel.forceComponentLayout();
+                });
+            }
+            
+            function showFloatableWindow() {
+                Ext.onReady(function() {
+                    Ext.create('Ext.window.Window', {
+                        bodyPadding: 10,
+                        buttons: [{
+                                text: 'Ejecutar',
+                                handler: function() {
+                                    var begdate = Ext.getCmp('begdate');
+                                    var enddate = Ext.getCmp('enddate');
+                                    if (begdate.getValue() == null || enddate.getValue() == null) {
+                                        Ext.Msg.alert('Env&iacuteo de Mensajes', 'Debe seleccionar las fechas para la consulta');
+                                        return;
+                                    }
+                                    
+                                    if (enddate.getValue() < begdate.getValue()) {
+                                        Ext.Msg.alert('Env&iacuteo de Mensajes', 'La fecha de fin no puede ser menor que la fecha de inicio');
+                                        return;
+                                    }
+                                    
+                                    Ext.getCmp('reportwindow').close();
+                                    Ext.Ajax.request({
+                                        failure: function(o) {
+                                            Ext.Msg.alert('Env&iacuteo de Mensajes', 'Ha ocurrido un error en la ejecuci&oacuten del reporte\nPor favor contacte al administrador del sistema');
+                                        },
+                                        method: 'GET',
+                                        params: {
+                                            firstdate: begdate.getRawValue(),
+                                            seconddate: enddate.getRawValue()
+                                        },
+                                        success: function(o) {
+                                            var response = Ext.decode(o.responseText);
+                                            if (response.datas.length == 0) {
+                                                Ext.Msg.alert('Env&iacuteo de Mensajes', 'Sus criterios de selecci&oacuten no contienen resultados');
+                                                return;
+                                            }
+                                            
+                                            updateBodyPanel(2);
+                                        },
+                                        url: '../phpcode/executereport.php'
+                                    });
+                                }
+                            }, {
+                                text: 'Cancelar',
+                                handler: function() {
+                                    Ext.getCmp('reportwindow').close();
+                                }
+                            }],
+                        height: 132,
+                        id: 'reportwindow',
+                        items: [{
+                                xtype: 'datefield',
+                                allowBlank: false,
+                                anchor: '150%',
+                                fieldLabel: 'Desde',
+                                format: 'd/m/Y',
+                                id: 'begdate',
+                                value: new Date()
+                            }, {
+                                xtype: 'datefield',
+                                allowBlank: false,
+                                anchor: '150%',
+                                fieldLabel: 'Hasta',
+                                format: 'd/m/Y',
+                                id: 'enddate',
+                                value: new Date()
+                            }],
+                        modal: true,
+                        resizable: false,
+                        title: 'Criterios del Reporte',
+                        width: 290
+                    }).show();
                 });
             }
         </script>
@@ -46,7 +128,7 @@
                             <a href="javascript:onClick=updateBodyPanel(1)"><span>Env&iacuteo de Mensajes</span></a>
                         </li>
                         <li>
-                            <a href="#"><span>Reportes</span></a>
+                            <a href="javascript:onClick=showFloatableWindow()"><span>Reportes</span></a>
                         </li>
                         <li>
                             <a href="#"><span>Administración</span></a>
@@ -54,12 +136,12 @@
                     </ul>
                 </div>
                 <div id="user">
-                    <ul>
-                        <li>
-                            <a href="#"><span>César Bolaños</span></a>
-                            <ul style="display: none;">
-                                <li>
-                                    <a href="#"><span>Salir</span></a>
+                    <ul class="pureCssMenu pureCssMenum">
+                        <li class="pureCssMenui">
+                            <a class="pureCssMenui" href="#"><span><?php echo $_SESSION['username'] ?></span></a>
+                            <ul class="pureCssMenum">
+                                <li class="pureCssMenui">
+                                    <a class="pureCssMenui" href="../phpcode/logout.php">Salir</a>
                                 </li>
                             </ul>
                         </li>

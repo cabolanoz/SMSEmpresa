@@ -7,19 +7,14 @@
 
 require_once 'KLogger.php';
 
-class Logger{
-    
-    
-    public static function info( $message,$filename='/var/log/  '){
-        
-        $log = new KLogger(dirname(__FILE__),  KLogger::DEBUG);
-        $log->logInfo($message);
+class Logger {
 
+    public static function info($message, $filename = '/var/log/  ') {
+
+        $log = new KLogger(dirname(__FILE__), KLogger::DEBUG);
+        $log->logInfo($message);
     }
-    
-    
-    
-    
+
 }
 
 ?>

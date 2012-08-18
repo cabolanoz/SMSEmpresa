@@ -152,6 +152,7 @@ var sendmessagepanel = new Ext.form.Panel({
                     id: 'companytypewindow',
                     layout: 'fit',
                     modal: true,
+                    resizable: false,
                     title: 'Env&iacuteo de Mensajes',
                     width: 48
                 }).show();
@@ -185,7 +186,7 @@ function getStoreContent() {
 }
 
 function sendMessageRequest(content, company) {
-    Ext.getCmp('companytypewindow').hide();
+    Ext.getCmp('companytypewindow').close();
     Ext.Ajax.request({
         failure: function(o) {
             Ext.Msg.alert('Env&iacuteo de Mensajes', 'Ha ocurrido un error en el env&iacuteo de los mensajes\nPor favor contacte al administrador del sistema');

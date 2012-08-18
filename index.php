@@ -3,6 +3,11 @@
 /**
  * @author: César Bolaños [cbolanos]
  */
+session_start();
+if (isset($_SESSION['user']) && isset($_SESSION['password'])) {
+    header('Location: /pages/dashboard.php');
+    exit();
+}
 ?>
 <html>
     <head>
@@ -12,6 +17,12 @@
         <link href="js/resources/css/ext-all.css" rel="stylesheet" type="text/css"></link>
     </head>
     <body>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
         <div align="center">
             <table>
                 <tr>
@@ -25,7 +36,9 @@
                                         var loginform = Ext.create('Ext.form.Panel', {
                                             bodyStyle: 'padding:5px 5px 0',
                                             frame: true,
+                                            method: 'GET',
                                             title: 'Inicio de Sesión',
+                                            url: 'phpcode/login.php',
                                             width: 350,
                                             fieldDefaults: {
                                                 msgTarget: 'side',
@@ -37,22 +50,51 @@
                                             },
                                             
                                             items: [{
-                                                allowBlank: false,
-                                                blankText: 'Este campo es requerido',
-                                                fieldLabel: 'Nombre de Usuario',
-                                                name: 'first'
-                                            },{
-                                                allowBlank: false,
-                                                blankText: 'Este campo es requerido',
-                                                fieldLabel: 'Contraseña',
-                                                name: 'last'
-                                            }],
+                                                    allowBlank: false,
+                                                    blankText: 'Este campo es requerido',
+                                                    fieldLabel: 'Nombre de Usuario',
+                                                    id: 'user',
+                                                    name: 'user'
+                                                },{
+                                                    allowBlank: false,
+                                                    blankText: 'Este campo es requerido',
+                                                    fieldLabel: 'Contraseña',
+                                                    id: 'password',
+                                                    name: 'password'
+                                                }],
 
                                             buttons: [{
-                                                text: 'Acceder'
-                                            },{
-                                                text: 'Cancelar'
-                                            }]
+                                                    text: 'Acceder',
+                                                    handler: function() {
+                                                        var form = this.up('form').getForm();
+                                                        if (form.isValid()) {
+                                                            var user = Ext.getCmp('user');
+                                                            var password = Ext.getCmp('password');
+                                                            if (user.isValid() && password.isValid()) {
+                                                                form.submit({
+                                                                    params: {
+                                                                        user: user.getValue(),
+                                                                        password: password.getValue()
+                                                                    },
+                                                                    failure: function(form, action) {
+                                                                        Ext.Msg.alert('Env&iacuteo de Mensajes', 'Usuario y/o contrase&ntildea incorrectos');
+                                                                    },
+                                                                    success: function(form, action) {
+                                                                        form.location = '/pages/dashboard.php';
+                                                                    }
+                                                                });   
+                                                            } else {
+                                                                user.reset();
+                                                                password.reset();
+                                                            }
+                                                        }
+                                                    }
+                                                },{
+                                                    text: 'Cancelar',
+                                                    handler: function() {
+                                                        this.up('form').getForm().reset();
+                                                    }
+                                                }]
                                         });
                                         
                                         loginform.render('loginform');

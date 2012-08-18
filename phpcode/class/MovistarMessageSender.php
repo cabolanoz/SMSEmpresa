@@ -7,9 +7,8 @@ require_once dirname(__FILE__) . '/../util/property.php';
 
 class MovistarMessageSender {
 
-
     function sendMessage($phonenumber, $message) {
-        
+
         global $property;
 
         $request = new HttpRequest($property['MOVISTAR']['server'], HttpRequest::METH_GET);
