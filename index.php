@@ -5,7 +5,7 @@
  */
 session_start();
 if (isset($_SESSION['user']) && isset($_SESSION['password'])) {
-    header('Location: /pages/dashboard.php');
+    header('Location: ./pages/dashboard.php');
     exit();
 }
 ?>
@@ -60,6 +60,7 @@ if (isset($_SESSION['user']) && isset($_SESSION['password'])) {
                                                     blankText: 'Este campo es requerido',
                                                     fieldLabel: 'Contraseña',
                                                     id: 'password',
+                                                    inputType: 'password',
                                                     name: 'password'
                                                 }],
 
@@ -80,7 +81,7 @@ if (isset($_SESSION['user']) && isset($_SESSION['password'])) {
                                                                         Ext.Msg.alert('Env&iacuteo de Mensajes', 'Usuario y/o contrase&ntildea incorrectos');
                                                                     },
                                                                     success: function(form, action) {
-                                                                        form.location = '/pages/dashboard.php';
+                                                                        window.location.href = './pages/dashboard.php';
                                                                     }
                                                                 });   
                                                             } else {

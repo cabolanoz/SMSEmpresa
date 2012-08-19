@@ -9,6 +9,20 @@ require_once dirname(__FILE__) . '/util/Logger.php';
 $begdate = $_GET['firstdate'];
 $enddate = $_GET['seconddate'];
 
+// Daily
+//SELECT   compania, fecha, COUNT(1) cantidad
+//FROM     (SELECT compania, DATE_FORMAT(DATE(fechaenvio), '%d-%m-%Y') fecha
+//          FROM   enviomensaje
+//          WHERE  DATE_FORMAT(DATE(fechaenvio), '%d/%m/%Y') >= '01/08/2012' AND DATE_FORMAT(DATE(fechaenvio), '%d/%m/%Y') <= '17/08/2012') a
+//GROUP BY compania, fecha
+
+// Monthly
+//SELECT   compania, fecha, COUNT(1) cantidad
+//FROM     (SELECT compania, DATE_FORMAT(DATE(fechaenvio), '%m-%Y') fecha
+//          FROM   enviomensaje
+//          WHERE  DATE_FORMAT(DATE(fechaenvio), '%d/%m/%Y') >= '01/08/2012' AND DATE_FORMAT(DATE(fechaenvio), '%d/%m/%Y') <= '17/08/2012') a
+//GROUP BY compania, fecha
+
 $sql = "SELECT idenvio, fechaenvio, compania ";
 $sql = $sql . "FROM   (SELECT idenvio, DATE_FORMAT(DATE(fechaenvio), '%d/%m/%Y') fechaenvio, compania FROM enviomensaje) a ";
 $sql = $sql . "WHERE  fechaenvio >= ? AND fechaenvio <= ?";
