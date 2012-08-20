@@ -49,6 +49,7 @@ if (!isset($_SESSION['user']) && !isset($_SESSION['password'])) {
                                 handler: function() {
                                     var begdate = Ext.getCmp('begdate');
                                     var enddate = Ext.getCmp('enddate');
+                                    var isdaily = Ext.getCmp('daily').getValue() ? true : false;
                                     if (begdate.getValue() == null || enddate.getValue() == null) {
                                         Ext.Msg.alert('Env&iacuteo de Mensajes', 'Debe seleccionar las fechas para la consulta');
                                         return;
@@ -67,7 +68,8 @@ if (!isset($_SESSION['user']) && !isset($_SESSION['password'])) {
                                         method: 'GET',
                                         params: {
                                             firstdate: begdate.getRawValue(),
-                                            seconddate: enddate.getRawValue()
+                                            seconddate: enddate.getRawValue(),
+                                            isdaily: isdaily
                                         },
                                         success: function(o) {
                                             var response = Ext.decode(o.responseText);
@@ -77,6 +79,7 @@ if (!isset($_SESSION['user']) && !isset($_SESSION['password'])) {
                                             }
                                             
                                             updateBodyPanel(2);
+                                            Ext.data.StoreManager.lookup('reportstore').loadData(response.datas);
                                         },
                                         url: '../phpcode/executereport.php'
                                     });
@@ -87,7 +90,7 @@ if (!isset($_SESSION['user']) && !isset($_SESSION['password'])) {
                                     Ext.getCmp('reportwindow').close();
                                 }
                             }],
-                        height: 200,
+                        height: 195,
                         id: 'reportwindow',
                         items: [{
                                 xtype: 'datefield',
@@ -104,31 +107,26 @@ if (!isset($_SESSION['user']) && !isset($_SESSION['password'])) {
                                 id: 'enddate',
                                 value: new Date()
                             }, {
-                                xtype: 'radiogroup',
-                                defaults: {
-                                    xtype: 'radiofield',
-                                    anchor: '100%',
-                                    boxLabelAlign: 'after',
-                                    hidden: false,
-                                    hideEmptyLabel: false,
-                                    hideLabel: false,
-                                    name: 'reporttype'
-                                },
-                                fieldLabel: 'Tipo',
-                                layout: 'hbox',
-                                items: [{
-                                        boxLabel: 'Diario',
-                                        checked: true,
-                                        id: 'dailyreport',
-                                        inputLabel: 'daily'
-                                    }, {
-                                        boxLabel: 'Mensual',
-                                        id: 'monthlyreport',
-                                        inputLabel: 'monthly'
-                                    }]
+                                xtype: 'menuseparator' 
+                            }, {
+                                xtype: 'label',
+                                text: 'Tipo de Reporte'
+                            }, {
+                                xtype: 'radio',
+                                boxLabel: 'Diario',
+                                checked: true,
+                                id: 'daily',
+                                inputLabel: 'daily',
+                                name: 'reporttype'
+                            }, {
+                                xtype: 'radio',
+                                boxLabel: 'Mensual',
+                                id: 'monthly',
+                                inputLabel: 'monthly',
+                                name: 'reporttype'
                             }],
                         modal: true,
-//                        resizable: false,
+                        resizable: false,
                         title: 'Criterios del Reporte',
                         width: 288
                     }).show();

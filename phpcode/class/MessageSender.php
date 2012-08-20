@@ -24,7 +24,7 @@ class MessageSender {
                 $sql = "INSERT INTO enviomensaje (numerotelefono, mensaje, fechaenvio, compania) VALUES ('" .
                         '505' . $data->phone . "', '" .
                         $data->message . "', '" .
-                        date('d/m/y H:i:s') . "', '" .
+                        date('d/m/Y H:i:s') . "', '" .
                         $company . "');";
 
                 $dbh->exec($sql);

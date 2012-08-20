@@ -8,24 +8,13 @@ require_once dirname(__FILE__) . '/util/Logger.php';
 
 $begdate = $_GET['firstdate'];
 $enddate = $_GET['seconddate'];
+$isdaily = $_GET['isdaily'];
 
-// Daily
-//SELECT   compania, fecha, COUNT(1) cantidad
-//FROM     (SELECT compania, DATE_FORMAT(DATE(fechaenvio), '%d-%m-%Y') fecha
-//          FROM   enviomensaje
-//          WHERE  DATE_FORMAT(DATE(fechaenvio), '%d/%m/%Y') >= '01/08/2012' AND DATE_FORMAT(DATE(fechaenvio), '%d/%m/%Y') <= '17/08/2012') a
-//GROUP BY compania, fecha
-
-// Monthly
-//SELECT   compania, fecha, COUNT(1) cantidad
-//FROM     (SELECT compania, DATE_FORMAT(DATE(fechaenvio), '%m-%Y') fecha
-//          FROM   enviomensaje
-//          WHERE  DATE_FORMAT(DATE(fechaenvio), '%d/%m/%Y') >= '01/08/2012' AND DATE_FORMAT(DATE(fechaenvio), '%d/%m/%Y') <= '17/08/2012') a
-//GROUP BY compania, fecha
-
-$sql = "SELECT idenvio, fechaenvio, compania ";
-$sql = $sql . "FROM   (SELECT idenvio, DATE_FORMAT(DATE(fechaenvio), '%d/%m/%Y') fechaenvio, compania FROM enviomensaje) a ";
-$sql = $sql . "WHERE  fechaenvio >= ? AND fechaenvio <= ?";
+$sql = "SELECT   compania, fecha, COUNT(1) cantidad ";
+$sql = $sql . "FROM     (SELECT compania, DATE_FORMAT(DATE(fechaenvio), " . ($isdaily ? "'%d-%m-%Y'" : "'%m-%Y'") . ") fecha ";
+$sql = $sql . "FROM   enviomensaje ";
+$sql = $sql . "WHERE  DATE_FORMAT(DATE(fechaenvio), '%d/%m/%Y') >= ? AND DATE_FORMAT(DATE(fechaenvio), '%d/%m/%Y') <= ?) a ";
+$sql = $sql . "GROUP BY compania, fecha";
 
 $dbh = DBConnection::getInstance();
 
@@ -36,8 +25,9 @@ $rows = $result->fetchAll();
 $datas = array();
 for ($i = 0; $i < count($rows); $i++) {
     $row = $rows[$i];
-    $datas[$i]->sentdate = $row[1];
-    $datas[$i]->company = $row[2];
+    $datas[$i]->company = $row[0];
+    $datas[$i]->date = $row[1];
+    $datas[$i]->quantity = $row[2];
 }
 
 $response->success = true;
