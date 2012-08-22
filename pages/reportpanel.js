@@ -32,7 +32,7 @@ var linechart = Ext.create('Ext.chart.Chart', {
     }, {
         fields: ['company', 'date'],
         position: 'bottom',
-        title: 'Per&iacuteodo',
+        title: 'Período',
         type: 'Category'
     }],
     series: [{

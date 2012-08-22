@@ -97,11 +97,11 @@ var gridpanel = Ext.create('Ext.grid.Panel', {
         handler: function() {
             if (!isStoreEmpty()) {
                 Ext.Ajax.request({
-                   method: 'GET',
-                   params: {
-                       a: getStoreContent()
-                   },
-                   url: '../phpcode/excelexporter.php'
+                    method: 'GET',
+                    params: {
+                        a: getStoreContent()
+                    },
+                    url: '../phpcode/excelexporter.php'
                 });
             } else
                 Ext.Msg.alert('Env&iacuteo de Mensajes', 'No hay datos para la exportaci&oacuten');
@@ -200,8 +200,8 @@ function sendMessageRequest(content, company) {
             var response = Ext.decode(o.responseText);
             if (response.datas.length == 0) {
                 Ext.Msg.alert('Env&iacuteo de Mensajes', 'Mensajes env&iacuteados con &eacutexito');
-            } else {
-                console.log(response.datas.length);
+                if (!isStoreEmpty())
+                    store.removeAll(false);
             }
         },
         url: '../phpcode/messagesender.php'

@@ -12,9 +12,9 @@ $recordnbr = count($content) - 1;
 
 if ($recordnbr != 0) {
     $datas = array();
+    $wrongdatas = array();
 
     //now is time to send the message
-
     if ($_GET['company_type'] == 'movistar')
         $sender = new MovistarMessageSender();
     else if ($_GET['company_type'] == 'claro') {
@@ -33,19 +33,17 @@ if ($recordnbr != 0) {
 
             $response = new HttpMessage($sender->sendMessage($data->phone, $data->message));
             if ($response->getBody() == 'OK') {
-                //flag as correct   
+                $datas[] = $data;
             } else {
-                //flag as incorrect
+                $wrongdatas[] = $data;
             }
-
-            $datas[] = $data;
         }
     }
 
     MessageSender::insertMessages($datas, $_GET['company_type']);
 
     $response->success = true;
-    $response->datas = $datas;
+    $response->datas = $wrongdatas;
 } else
     $response->success = false;
 
