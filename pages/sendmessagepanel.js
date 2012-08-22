@@ -134,6 +134,7 @@ var sendmessagepanel = new Ext.form.Panel({
                         xtype: 'button',
                         cls: 'claro-icon',
                         handler: function() {
+                            Ext.getCmp('companytypewindow').close();
                         //                            sendMessageRequest(content, 'claro');
                         },
                         height: 50,
@@ -143,6 +144,7 @@ var sendmessagepanel = new Ext.form.Panel({
                         xtype: 'button',
                         cls: 'movistar-icon',
                         handler: function() {
+                            Ext.getCmp('companytypewindow').close();
                             sendMessageRequest(getStoreContent(), 'movistar');
                         },
                         height: 50,
@@ -186,7 +188,6 @@ function getStoreContent() {
 }
 
 function sendMessageRequest(content, company) {
-    Ext.getCmp('companytypewindow').close();
     Ext.Ajax.request({
         failure: function(o) {
             Ext.Msg.alert('Env&iacuteo de Mensajes', 'Ha ocurrido un error en el env&iacuteo de los mensajes\nPor favor contacte al administrador del sistema');

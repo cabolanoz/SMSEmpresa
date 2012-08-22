@@ -79,6 +79,7 @@ if (!isset($_SESSION['user']) && !isset($_SESSION['password'])) {
                                             }
                                             
                                             updateBodyPanel(2);
+                                            console.log(response.datas);
                                             Ext.data.StoreManager.lookup('reportstore').loadData(response.datas);
                                         },
                                         url: '../phpcode/executereport.php'

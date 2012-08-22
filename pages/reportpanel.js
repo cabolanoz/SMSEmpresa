@@ -4,7 +4,7 @@
 
 var reportstore = Ext.create('Ext.data.Store', {
     autoLoad: false,
-    fields: ['company', 'date', 'quantity'],
+    fields: ['Fecha', 'Claro', 'Movistar'],
     storeId: 'reportstore'
 });
 
@@ -13,9 +13,12 @@ var linechart = Ext.create('Ext.chart.Chart', {
     legend: {
         position: 'right'
     },
+    shadow: true,
     store: reportstore,
+    theme: 'Category1',
     axes: [{
-        fields: ['quantity'],
+        type: 'Numeric',
+        fields: ['Claro', 'Movistar'],
         grid: {
             odd: {
                 fill: '#ddd',
@@ -27,19 +30,35 @@ var linechart = Ext.create('Ext.chart.Chart', {
         minimum: 0,
         minorTickSteps: 1,
         position: 'left',
-        title: 'Cantidad de Mensajes',
-        type: 'Numeric'
+        title: 'Cantidad de Mensajes'
     }, {
-        fields: ['company', 'date'],
+        type: 'Category',
+        fields: ['Fecha'],
         position: 'bottom',
-        title: 'Período',
-        type: 'Category'
+        title: 'Período'
     }],
     series: [{
-        axis: 'left',
         type: 'line',
-        xField: 'date',
-        yField: 'quantity'
+        axis: 'left',
+        markerConfig: {
+            type: 'cross',
+            size: 4,
+            radius: 4,
+            'stroke-width': 0
+        },
+        xField: 'Fecha',
+        yField: 'Claro'
+    }, {
+        type: 'line',
+        axis: 'left',
+        markerConfig: {
+            type: 'circle',
+            size: 4,
+            radius: 4,
+            'stroke-width': 0
+        },        
+        xField: 'Fecha',
+        yField: 'Movistar'
     }]
 })
 
