@@ -88,7 +88,7 @@ if (!isset($_SESSION['user']) && !isset($_SESSION['password'])) {
                             }, {
                                 text: 'Cancelar',
                                 handler: function() {
-                                    Ext.getCmp('reportwindow').close();
+                                    Ext.getCmp('reportwindow').hide();
                                 }
                             }],
                         height: 195,

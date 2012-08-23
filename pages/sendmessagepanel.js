@@ -82,6 +82,7 @@ var gridpanel = Ext.create('Ext.grid.Panel', {
                     form.submit({
                         success: function(fp, o) {
                             var response = Ext.decode(o.response.responseText);
+                            console.log(response.datas);
                             Ext.data.StoreManager.lookup('telephoneStore').loadData(response.datas);
                         },
                         url: '../phpcode/filereader.php',
@@ -134,7 +135,7 @@ var sendmessagepanel = new Ext.form.Panel({
                         xtype: 'button',
                         cls: 'claro-icon',
                         handler: function() {
-                            Ext.getCmp('companytypewindow').close();
+                            Ext.getCmp('companytypewindow').hide();
                         //                            sendMessageRequest(content, 'claro');
                         },
                         height: 50,
@@ -144,7 +145,7 @@ var sendmessagepanel = new Ext.form.Panel({
                         xtype: 'button',
                         cls: 'movistar-icon',
                         handler: function() {
-                            Ext.getCmp('companytypewindow').close();
+                            Ext.getCmp('companytypewindow').hide();
                             sendMessageRequest(getStoreContent(), 'movistar');
                         },
                         height: 50,
