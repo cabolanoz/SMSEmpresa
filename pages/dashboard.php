@@ -73,14 +73,16 @@ if (!isset($_SESSION['user']) && !isset($_SESSION['password'])) {
                                         },
                                         success: function(o) {
                                             var response = Ext.decode(o.responseText);
-                                            if (response.datas.length == 0) {
+                                            if (response.linedata.length == 0 || response.piedata.length == 0) {
                                                 Ext.Msg.alert('Env&iacuteo de Mensajes', 'Sus criterios de selecci&oacuten no contienen resultados');
                                                 return;
                                             }
                                             
+                                            Ext.getCmp('report').setTitle('Del ' + begdate.getRawValue() + ' al ' + enddate.getRawValue());                                            
+                                            Ext.data.StoreManager.lookup('linestore').loadData(response.linedata);
+                                            Ext.data.StoreManager.lookup('piestore').loadData(response.piedata);
+                                            
                                             updateBodyPanel(2);
-                                            console.log(response.datas);
-                                            Ext.data.StoreManager.lookup('reportstore').loadData(response.datas);
                                         },
                                         url: '../phpcode/executereport.php'
                                     });
@@ -176,6 +178,7 @@ if (!isset($_SESSION['user']) && !isset($_SESSION['password'])) {
                             height: 400,
                             id: 'centerpanel',
                             items: [welcomepanel],
+                            layout: 'fit',
                             region: 'center',
                             renderTo: 'corpse',
                             width: 900

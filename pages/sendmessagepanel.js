@@ -82,7 +82,6 @@ var gridpanel = Ext.create('Ext.grid.Panel', {
                     form.submit({
                         success: function(fp, o) {
                             var response = Ext.decode(o.response.responseText);
-                            console.log(response.datas);
                             Ext.data.StoreManager.lookup('telephoneStore').loadData(response.datas);
                         },
                         url: '../phpcode/filereader.php',
