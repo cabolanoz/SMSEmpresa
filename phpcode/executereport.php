@@ -38,6 +38,7 @@ for ($i = 0; $i < count($linerows); $i++) {
     $linedata[$i]->Fecha = $row[0];
     $linedata[$i]->Claro = intval($row[1]);
     $linedata[$i]->Movistar = intval($row[2]);
+    $linedata[$i]->Total = intval($row[1]) + intval($row[2]);
 }
 
 /**

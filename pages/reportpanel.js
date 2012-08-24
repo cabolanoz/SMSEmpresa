@@ -4,8 +4,36 @@
 
 var linestore = Ext.create('Ext.data.Store', {
     autoLoad: false,
-    fields: ['Fecha', 'Claro', 'Movistar'],
+    fields: ['Fecha', 'Claro', 'Movistar', 'Total'],
     storeId: 'linestore'
+});
+
+var linegrid = Ext.create('Ext.grid.Panel', {
+    autoScroll: true,
+    clearOnPageLoad: true,
+    collapsible: false,
+    columns: [{
+        align: 'center',
+        dataIndex: 'Fecha',
+        flex: 220,
+        text: 'Fecha'
+    }, {
+        align: 'center',
+        dataIndex: 'Claro',
+        flex: 220,
+        text: 'Mensajes Claro'
+    }, {
+        align: 'center',
+        dataIndex: 'Movistar',
+        flex: 220,
+        text: 'Mensajes Movistar'
+    }, {
+        align: 'center',
+        dataIndex: 'Total',
+        flex: 220,
+        text: 'Total de Mensajes'
+    }],
+    store: linestore
 });
 
 var linechart = Ext.create('Ext.chart.Chart', {
@@ -124,6 +152,13 @@ var reportpanel = Ext.create('Ext.tab.Panel', {
     height: 400,
     id: 'report',
     items: [{
+        xtype: 'panel',
+        bodyPadding: 5,
+        height: 400,
+        items: [linegrid],
+        layout: 'fit',
+        title: 'Datos Reporte # 1'
+    },{
         xtype: 'panel',
         bodyPadding: 5,
         height: 400,
