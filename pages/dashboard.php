@@ -73,7 +73,7 @@ if (!isset($_SESSION['user']) && !isset($_SESSION['password'])) {
                                         },
                                         success: function(o) {
                                             var response = Ext.decode(o.responseText);
-                                            if (response.linedata.length == 0 || response.piedata.length == 0) {
+                                            if (response.linedata.length == 0 || response.piedata.length == 0 || response.bardata.length == 0) {
                                                 Ext.Msg.alert('Env&iacuteo de Mensajes', 'Sus criterios de selecci&oacuten no contienen resultados');
                                                 return;
                                             }
@@ -81,6 +81,7 @@ if (!isset($_SESSION['user']) && !isset($_SESSION['password'])) {
                                             Ext.getCmp('report').setTitle('Del ' + begdate.getRawValue() + ' al ' + enddate.getRawValue());                                            
                                             Ext.data.StoreManager.lookup('linestore').loadData(response.linedata);
                                             Ext.data.StoreManager.lookup('piestore').loadData(response.piedata);
+                                            Ext.data.StoreManager.lookup('barstore').loadData(response.bardata);
                                             
                                             updateBodyPanel(2);
                                         },

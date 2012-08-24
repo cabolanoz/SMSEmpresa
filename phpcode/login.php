@@ -16,7 +16,7 @@ if (userExist($user, $password)) {
     echo json_encode(false);
 
 function userExist($user, $password) {
-    $sql = "SELECT nombrecompleto FROM usuario WHERE nombreusuario='" . $user . "' AND contrasenia=MD5('" . $password . "') AND activo=1 AND conectado=0";
+    $sql = "SELECT Nombrecompleto FROM Usuario WHERE Nombreusuario='" . $user . "' AND Contrasenia=MD5('" . $password . "') AND Activo=1 AND Conectado=0";
 
     $dbh = DBConnection::getInstance();
 

@@ -3,6 +3,7 @@
 /**
  * @author: César Bolaños [cbolanos]
  */
+session_start();
 require_once 'DBConnection.php';
 require_once dirname(__FILE__) . '/../util/Logger.php';
 
@@ -21,11 +22,12 @@ class MessageSender {
             $dbh->beginTransaction();
 
             foreach ($datas as $data) {
-                $sql = "INSERT INTO enviomensaje (numerotelefono, mensaje, fechaenvio, compania) VALUES ('" .
+                $sql = "INSERT INTO Enviomensaje (Numerotelefono, Mensaje, Fechaenvio, Compania, Usuario) VALUES ('" .
                         '505' . $data->phone . "', '" .
                         $data->message . "', '" .
                         date('c') . "', '" .
-                        $company . "');";
+                        $company . "', '"
+                        $_SESSION['user'] . "');";
 
                 $dbh->exec($sql);
             }

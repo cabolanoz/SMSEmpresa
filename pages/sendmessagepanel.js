@@ -145,7 +145,8 @@ var sendmessagepanel = new Ext.form.Panel({
                         cls: 'movistar-icon',
                         handler: function() {
                             Ext.getCmp('companytypewindow').hide();
-                            sendMessageRequest(getStoreContent(), 'movistar');
+                            var waitMsg = Ext.Msg.wait('Enviando mensaje (s)...');
+                            sendMessageRequest(getStoreContent(), 'movistar', waitMsg);
                         },
                         height: 50,
                         text: 'Movistar',
@@ -187,9 +188,10 @@ function getStoreContent() {
     return content;
 }
 
-function sendMessageRequest(content, company) {
+function sendMessageRequest(content, company, waitMsg) {
     Ext.Ajax.request({
         failure: function(o) {
+            waitMsg.hide();
             Ext.Msg.alert('Env&iacuteo de Mensajes', 'Ha ocurrido un error en el env&iacuteo de los mensajes\nPor favor contacte al administrador del sistema');
         },
         method: 'GET',
@@ -198,6 +200,7 @@ function sendMessageRequest(content, company) {
             datas: content  
         },
         success: function(o) {
+            waitMsg.hide();
             var response = Ext.decode(o.responseText);
             if (response.datas.length == 0) {
                 Ext.Msg.alert('Env&iacuteo de Mensajes', 'Mensajes env&iacuteados con &eacutexito');
