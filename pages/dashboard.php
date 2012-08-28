@@ -13,6 +13,7 @@ if (!isset($_SESSION['user']) && !isset($_SESSION['password'])) {
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link href="../css/style.css" rel="stylesheet" type="text/css"/>
+        <link href="../css/menustyle.css" rel="stylesheet" type="text/css"/>
         <link href="../js/resources/css/ext-all.css" rel="stylesheet" type="text/css"/>
         <script src="../js/ext-all.js" type="text/javascript"></script>
         <script src="../js/ext-all-debug.js" type="text/javascript"></script>
@@ -20,10 +21,6 @@ if (!isset($_SESSION['user']) && !isset($_SESSION['password'])) {
         <script src="welcomepanel.js" type="text/javascript"></script>
         <script src="sendmessagepanel.js" type="text/javascript"></script>
         <script src="reportpanel.js" type="text/javascript"></script>
-        <script src="../ux/exporter/Exporter.js" type="text/javascript"></script>
-        <script src="../ux/exporter/Button.js" type="text/javascript"></script>
-        <script src="../ux/exporter/downloadify.min.js" type="text/javascript"></script>
-        <script src="../ux/exporter/swfobject.js" type="text/javascript"></script>
         <script type="text/javascript">
             function updateBodyPanel(val) {
                 Ext.onReady(function() {
@@ -142,33 +139,25 @@ if (!isset($_SESSION['user']) && !isset($_SESSION['password'])) {
     <body>
         <div id="container">
             <div id="header">
-                <div id="nav">
-                    <ul>
-                        <li class="item_active">
-                            <a href="javascript:onClick=updateBodyPanel(0)"><span>Inicio</span></a>
-                        </li>
-                        <li>
-                            <a href="javascript:onClick=updateBodyPanel(1)"><span>Env&iacuteo de Mensajes</span></a>
-                        </li>
-                        <li>
-                            <a href="javascript:onClick=showFloatableWindow()"><span>Reportes</span></a>
-                        </li>
-                        <li>
-                            <a href="#"><span>Administración</span></a>
-                        </li>
-                    </ul>
-                </div>
                 <div id="user">
-                    <ul class="pureCssMenu pureCssMenum">
-                        <li class="pureCssMenui">
-                            <a class="pureCssMenui" href="#"><span><?php echo $_SESSION['username'] ?></span></a>
-                            <ul class="pureCssMenum">
-                                <li class="pureCssMenui">
-                                    <a class="pureCssMenui" href="../phpcode/logout.php">Salir</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
+                    <li><a href="#"><?php echo $_SESSION['username'] ?></a></li>
+                    <li><a href="../phpcode/logout.php">Salir</a></li>
+                </div>
+                <div id="nav">
+                    <div class="catnav">	       
+                        <ul class="nav">
+                            <li><a href="javascript:onClick=updateBodyPanel(0)">Inicio</a></li>
+                            <li><a href="#">Env&iacute;o de Mensajes</a>
+                                <ul>
+                                    <li><a href="javascript:onClick=updateBodyPanel(1)">Claro</a></li>
+                                    <li><a href="javascript:onClick=updateBodyPanel(1)">Movistar</a></li>
+                                    <li><a href="javascript:onClick=updateBodyPanel(1)">Personalizado</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="javascript:onClick=showFloatableWindow()">Reportes</a></li>
+                            <li><a href="#">Administraci&oacute;n</a></li>   
+                        </ul>
+                    </div>
                 </div>
             </div>
             <div id="bar"></div>

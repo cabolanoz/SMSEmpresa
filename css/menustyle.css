@@ -1,0 +1,129 @@
+@charset "utf-8";
+/* CSS Document */
+/*****MENU DE NAVEGACION *****/
+
+#nav { 
+    width:900px;
+    overflow:hidden;
+
+    height:50px;
+    float:left;
+    top:150px;
+    position:absolute;
+
+    background:-moz-linear-gradient(top,  #eeeeee 0%, #cccccc 100%); /* FF3.6+ */
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#cccccc)); /* Chrome,Safari4+ */
+    background:-webkit-linear-gradient(top,  #eeeeee 0%,#cccccc 100%); /* Chrome10+,Safari5.1+ */
+    background:-o-linear-gradient(top,  #eeeeee 0%,#cccccc 100%); /* Opera 11.10+ */
+    background:-ms-linear-gradient(top,  #eeeeee 0%,#cccccc 100%); /* IE10+ */
+    background:linear-gradient(top,  #eeeeee 0%,#cccccc 100%); /* W3C */
+}	
+
+.catnav{
+    float:left;
+    width:900px;
+}
+
+.catnav ul 
+{
+    list-style: none;  
+    margin-left:0px;
+    margin-top:11px;  /*0em;*/
+    padding:0em;
+    margin-left:5px;
+}
+
+.catnav li {
+    float:left; 
+    margin:0;
+    margin-left:0; 
+    padding:0; 
+    list-style-type:none;
+    margin-right:2px;
+}
+
+.catnav a {
+    display:block;
+    line-height:36px;
+    margin:0;
+    padding:0 10px;  
+    font-size:13px;
+    color:#004666;
+    font-family:Arial, Helvetica, sans-serif;
+    font-weight:900;
+    background:#d5e3f2 ;  /** fondo de opciones de menu **/
+    list-style-type:none;
+    text-decoration:none;
+    letter-spacing:-1px;
+    width:125px;
+    text-align:center;
+
+    /*Gradiente*/
+    -webkit-box-shadow:2px 3px 5px 2px rgba(0, 0, 0, 0.3) !important;
+    box-shadow:2px 3px 5px 2px rgba(0, 0, 0, 0.3) !important;
+    /*Bordes*/
+    -webkit-border-radius:10px 10px 0px 0px;
+    border-radius:10px 10px 0px 0px;
+}
+
+.catnav li ul { 
+    float:left; 
+    margin:0; 
+    padding:0; 
+}
+
+/*Cuando estas Sobre el Menu*/
+.catnav li a:hover {
+    color:#fffffb; 
+    text-decoration:none;
+    background:#004666;
+}
+
+/*Aqui se le aplica el estilo al SUbMenu*/
+.catnav li ul {
+    list-style:none;
+    position:absolute;
+    width:100px;
+    left:-999em;
+}
+
+.catnav li:hover ul, #nav li.sfhover ul {
+    left:auto;
+}
+
+/**Esto es para alinear los item del subMenu debajo del Menu*/	
+.catnav li li {
+    float:left;
+    margin:0;
+    padding:0;
+}
+
+/*SubMenu Item*/
+.catnav li li a {
+    height:36px;
+    line-height:36px;
+    color:#fff;
+    background:#004666;
+    margin:0;
+    padding:0 10px;
+    border:0px !important;
+
+    /*Bordes*/
+    -webkit-border-radius:0px !important;
+    border-radius:0px !important; 
+}
+
+/*Cuando el mouse esta sobre el SubMenu*/	
+.catnav li li a:hover {
+    background:#3A88F7;
+    padding:0 10px;
+
+    -webkit-box-shadow:2px 3px 5px 2px rgba(0, 0, 0, 0.3) !important;
+    box-shadow:2px 3px 5px 2px rgba(0, 0, 0, 0.3) !important;
+}
+/*
+.catnav li:hover, .catnav li.sfhover { /* prevents IE7 drop-down menu bug (focus on a page 
+element prevents nested menus from disappearing) *
+  position: static;overflow:hidden;
+  }	
+*/

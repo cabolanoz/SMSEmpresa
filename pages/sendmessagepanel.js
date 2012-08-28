@@ -2,26 +2,6 @@
  * @author: César Bolaños [cbolanos]
  */
 
-Ext.onReady(function() {
-    Ext.Loader.setConfig({
-        enabled: true
-    });
-    Ext.Loader.setPath('Ext.ux.exporter', '../ux/exporter');
-
-    Ext.require([
-        'Ext.ux.exporter.Exporter',
-        'Ext.ux.exporter.Base64',
-        'Ext.ux.exporter.Button',
-        'Ext.ux.exporter.Formatter',
-        'Ext.ux.exporter.excelFormatter.Workbook',
-        'Ext.ux.exporter.excelFormatter.Worksheet',
-        'Ext.ux.exporter.excelFormatter.Cell',
-        'Ext.ux.exporter.excelFormatter.Style',
-        'Ext.ux.exporter.excelFormatter.ExcelFormatter',
-        'Ext.ux.exporter.csvFormatter.CsvFormatter'
-        ]);
-});
-
 var store = Ext.create('Ext.data.Store', {
     storeId: 'telephoneStore',
     fields: ['id', 'phone', 'message'],

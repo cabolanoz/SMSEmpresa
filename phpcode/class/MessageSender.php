@@ -26,7 +26,7 @@ class MessageSender {
                         '505' . $data->phone . "', '" .
                         $data->message . "', '" .
                         date('c') . "', '" .
-                        $company . "', '"
+                        $company . "', '" .
                         $_SESSION['user'] . "');";
 
                 $dbh->exec($sql);
