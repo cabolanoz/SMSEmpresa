@@ -7,32 +7,6 @@
  * 10 August 2008 
  * ************************************************* */
 
-
-if (basename($_SERVER['SCRIPT_NAME']) == 'class.smpp.php') {
-    header('Content-Type: text/plain');
-
-    $src = "unionF"; // or text 
-    $dst = "50586332498";
-    $message = "Bienvenido al nuevo servicio de DISNORTE-DISSUR para recordarle el vencimiento de la factura. Si no desea recibir mensaje,comunicarse al 125";
-
-    $s = new smpp();
-    $s->debug = 1;
-
-    // $host,$port,$system_id,$password
-    $s->open("172.16.78.33", 8217, "unionF", "unionF");
-
-    // $source_addr,$destintation_addr,$short_message,$utf=0,$flash=0
-    $s->send_long($src, $dst, $message);
-
-    /* To send unicode 
-      $utf = true;
-      $message = iconv('Windows-1256','UTF-16BE',$message);
-      $s->send_long($src, $dst, $message, $utf);
-     */
-
-    $s->close();
-}
-
 class smpp {
 
     var $socket = 0;

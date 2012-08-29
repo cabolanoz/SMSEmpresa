@@ -6,17 +6,20 @@
     width:900px;
     overflow:hidden;
 
-    height:50px;
+    height:45px;
     float:left;
-    top:150px;
-    position:absolute;
+    top:131px;
+    position:relative;
 
-    background:-moz-linear-gradient(top,  #eeeeee 0%, #cccccc 100%); /* FF3.6+ */
-    background:-webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#cccccc)); /* Chrome,Safari4+ */
-    background:-webkit-linear-gradient(top,  #eeeeee 0%,#cccccc 100%); /* Chrome10+,Safari5.1+ */
-    background:-o-linear-gradient(top,  #eeeeee 0%,#cccccc 100%); /* Opera 11.10+ */
-    background:-ms-linear-gradient(top,  #eeeeee 0%,#cccccc 100%); /* IE10+ */
-    background:linear-gradient(top,  #eeeeee 0%,#cccccc 100%); /* W3C */
+    background:-moz-linear-gradient(top,  #ffffff 10%, #cccccc 98%); /* FF3.6+ */
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(10%, #ffffff), color-stop(98%,#cccccc)); /* Chrome,Safari4+ */
+    background:-webkit-linear-gradient(top, #ffffff 10%, #cccccc 98%); /* Chrome10+,Safari5.1+ */
+    background:-o-linear-gradient(top, #ffffff 10%, #cccccc 98%); /* Opera 11.10+ */
+    background:-ms-linear-gradient(top, #ffffff 10%, #cccccc 98%); /* IE10+ */
+    background:linear-gradient(top, #ffffff 10%, #cccccc 98%); /* W3C */
+    
+    overflow: visible;
+    z-index: 100;
 }	
 
 .catnav{
@@ -102,8 +105,8 @@
 .catnav li li a {
     height:36px;
     line-height:36px;
-    color:#fff;
-    background:#004666;
+    color:#004666;
+/*    background:#004666;*/
     margin:0;
     padding:0 10px;
     border:0px !important;
@@ -115,7 +118,7 @@
 
 /*Cuando el mouse esta sobre el SubMenu*/	
 .catnav li li a:hover {
-    background:#3A88F7;
+    background:#004666;
     padding:0 10px;
 
     -webkit-box-shadow:2px 3px 5px 2px rgba(0, 0, 0, 0.3) !important;

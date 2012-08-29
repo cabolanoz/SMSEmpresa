@@ -31,7 +31,6 @@ body {
     border-top-right-radius: 20px;
     height: 190px;
     position: relative;
-    z-index: 200;
 }
 
 #user {
@@ -57,8 +56,8 @@ body {
 #corpse {
     background: #E3E7EE;
     height: 400px;
-    position: relative;
-    z-index: 200;
+    position: absolute;
+    top: 193px;
 }
 
 .claro-icon {

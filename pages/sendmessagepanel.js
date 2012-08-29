@@ -43,7 +43,7 @@ var gridpanel = Ext.create('Ext.grid.Panel', {
         dock: 'bottom',
         store: store
     }],
-    height: 336,
+    height: 332,
     id: "gridpanel",
     store: store,
     tbar: [{
@@ -72,28 +72,31 @@ var gridpanel = Ext.create('Ext.grid.Panel', {
         },
         name: 'txtfile',
         widht: 400
-    }, {
-        xtype: 'button',
-        handler: function() {
-            if (!isStoreEmpty()) {
-                Ext.Ajax.request({
-                    method: 'GET',
-                    params: {
-                        a: getStoreContent()
-                    },
-                    url: '../phpcode/excelexporter.php'
-                });
-            } else
-                Ext.Msg.alert('Env&iacuteo de Mensajes', 'No hay datos para la exportaci&oacuten');
-        },
-        icon: '../img/excel-16x16.png',
-        text: 'Exportar a Excel'
-    }]
+    }
+    //    , 
+    //    {
+    //        xtype: 'button',
+    //        handler: function() {
+    //            if (!isStoreEmpty()) {
+    //                Ext.Ajax.request({
+    //                    method: 'GET',
+    //                    params: {
+    //                        a: getStoreContent()
+    //                    },
+    //                    url: '../phpcode/excelexporter.php'
+    //                });
+    //            } else
+    //                Ext.Msg.alert('Env&iacuteo de Mensajes', 'No hay datos para la exportaci&oacuten');
+    //        },
+    //        icon: '../img/excel-16x16.png',
+    //        text: 'Exportar a Excel'
+    //    }
+    ]
 });
 
 var sendmessagepanel = new Ext.form.Panel({
     frame: true,
-    height: 400,
+    //    height: 380,
     id: 'sendmessage',
     title: 'Env&iacuteo de Mensajes',
     width: 900,
@@ -109,39 +112,16 @@ var sendmessagepanel = new Ext.form.Panel({
         text: 'Enviar',
         handler: function() {
             if (!isStoreEmpty()) {
-                Ext.create('Ext.window.Window', {
-                    items: [{
-                        xtype: 'button',
-                        cls: 'claro-icon',
-                        handler: function() {
-                            Ext.getCmp('companytypewindow').hide();
-                        //                            sendMessageRequest(content, 'claro');
-                        },
-                        height: 50,
-                        text: 'Claro',
-                        width: 188
-                    }, {
-                        xtype: 'button',
-                        cls: 'movistar-icon',
-                        handler: function() {
-                            Ext.getCmp('companytypewindow').hide();
-                            var waitMsg = Ext.Msg.wait('Enviando mensaje (s)...');
-                            sendMessageRequest(getStoreContent(), 'movistar', waitMsg);
-                        },
-                        height: 50,
-                        text: 'Movistar',
-                        width: 188
-                    }],
-                    id: 'companytypewindow',
-                    layout: 'fit',
-                    modal: true,
-                    resizable: false,
-                    title: 'Env&iacuteo de Mensajes',
-                    width: 48
-                }).show();
+                Ext.Msg.confirm('Env&iacuteo de Mensajes', '¿Está seguro que desea realizar el env&iacuteo de mensajes?', function(answer) {
+                    if (answer == 'yes') {
+                        var waitMsg = Ext.Msg.wait('Enviando mensaje (s)...');
+                        sendMessageRequest(getStoreContent(), getCompanyName(), waitMsg);
+                    }
+                });
             } else
                 Ext.Msg.alert('Env&iacuteo de Mensajes', 'No hay datos para el env&iacuteo de mensajes');
-        }
+        },
+        id: 'sendbutton'
     }, {
         text: 'Cancelar',
         handler: function() {
@@ -190,4 +170,14 @@ function sendMessageRequest(content, company, waitMsg) {
         },
         url: '../phpcode/messagesender.php'
     });
+}
+
+var companyname;
+
+function setCompanyName(_companyname) {
+    companyname = _companyname;
+}
+
+function getCompanyName() {
+    return companyname;
 }

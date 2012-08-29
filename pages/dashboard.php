@@ -20,24 +20,124 @@ if (!isset($_SESSION['user']) && !isset($_SESSION['password'])) {
         <script src="../js/bootstrap.js" type="text/javascript"></script>
         <script src="welcomepanel.js" type="text/javascript"></script>
         <script src="sendmessagepanel.js" type="text/javascript"></script>
+        <script src="customsendmessagepanel.js" type="text/javascript"></script>
         <script src="reportpanel.js" type="text/javascript"></script>
         <script type="text/javascript">
             function updateBodyPanel(val) {
                 Ext.onReady(function() {
                     var centerpanel = Ext.getCmp('centerpanel');
                     centerpanel.removeAll(false);
-                    if (val == 0)
+                    if (val == 'home')
                         centerpanel.add(welcomepanel);
-                    else if (val == 1)
+                    else if (val == 'claro') {
+                        sendmessagepanel.setTitle("Env&iacuteo de Mensajes - Claro");
+                        Ext.getCmp('sendbutton').setIcon('../img/claro-16x16.png');
+                        setCompanyName('claro');
+                        
+                        var store = Ext.data.StoreManager.lookup('telephoneStore');
+                        if (store.count() > 0)
+                            store.removeAll(false);
+                        
                         centerpanel.add(sendmessagepanel);
-                    else if (val == 2)
+                    } else if (val == 'movistar') {
+                        sendmessagepanel.setTitle("Env&iacuteo de Mensajes - Movistar");
+                        Ext.getCmp('sendbutton').setIcon('../img/movistar-16x16.png');
+                        setCompanyName('movistar');
+                        
+                        var store = Ext.data.StoreManager.lookup('telephoneStore');
+                        if (store.count() > 0)
+                            store.removeAll(false);
+                        
+                        centerpanel.add(sendmessagepanel);
+                    } else if (val == 'custom') {
+                        customsendmessagepanel.setTitle("Env&iacuteo de Mensajes Personalizados");
+                        centerpanel.add(customsendmessagepanel);
+                    } else if (val == 'report')
                         centerpanel.add(reportpanel);
                     centerpanel.doLayout();
                     centerpanel.forceComponentLayout();
                 });
             }
             
-            function showFloatableWindow() {
+            function showPrefixFloatableWindow() {
+                Ext.onReady(function() {
+                    var claroprefixstore = Ext.create('Ext.data.Store', {
+                        autoLoad: false,
+                        fields: ['value'],
+                        storeId: 'claroprefixstore'
+                    });
+
+                    var claroprefixgrid = Ext.create('Ext.grid.Panel', {
+                        autoScroll: true,
+                        columns: [{
+                            dataIndex: 'value',
+                            flex: 100,
+                            sortable: true,
+                            text: 'Prefijo'
+                        }],
+                        store: claroprefixstore,
+                        title: 'Claro'
+                    });
+
+                    var movistarprefixstore = Ext.create('Ext.data.Store', {
+                        autoLoad: false,
+                        fields: ['value'],
+                        storeId: 'movistarprefixstore'
+                    });
+
+                    var movistarprefixgrid = Ext.create('Ext.grid.Panel', {
+                        autoScroll: true,
+                        columns: [{
+                            dataIndex: 'value',
+                            flex: 100,
+                            sortable: true,
+                            text: 'Prefijo'
+                        }],
+                        store: movistarprefixstore,
+                        title: 'Movistar'
+                    });
+
+                    var prefixwindow = new Ext.window.Window({
+                        height: 600,
+                        id : 'prefixwindow',
+                        items: [{
+                            xtype: 'panel',
+                            items: [claroprefixgrid, movistarprefixgrid],
+                            layout: 'accordion',
+                            margins:'5 0 5 5',
+                            region: 'center'
+                        }],
+                        layout: 'fit',
+                        resizable: false,
+                        title: 'Prefijos',
+                        width: 100
+                    });
+                    
+                    if (!prefixwindow.isVisible()) {
+                        Ext.Ajax.request({
+                            failure: function(o) {
+                                Ext.Msg.alert('Env&iacuteo de Mensajes', 'Ha ocurrido un error en la obtenci&oacuten de prefijos\nPor favor contacte al administrador del sistema');
+                            },
+                            method: 'GET',
+                            success: function(o) {
+                                var response = Ext.decode(o.responseText);
+                                if (response.claro.length == 0 && response.movistar.length == 0) {
+                                    Ext.Msg.alert('Env&iacuteo de Mensajes', 'No se encontraron resultados en la instancia de prefijos');
+                                    return;
+                                }
+                        
+                                claroprefixstore.loadData(response.claro);
+                                movistarprefixstore.loadData(response.movistar);
+                        
+                                prefixwindow.show();
+                            },
+                            url: '../phpcode/prefixreader.php'
+                        });
+                    }
+                });
+            }
+            
+            function showReportFloatableWindow() {
                 Ext.onReady(function() {
                     Ext.create('Ext.window.Window', {
                         bodyPadding: 10,
@@ -80,7 +180,7 @@ if (!isset($_SESSION['user']) && !isset($_SESSION['password'])) {
                                             Ext.data.StoreManager.lookup('piestore').loadData(response.piedata);
                                             Ext.data.StoreManager.lookup('barstore').loadData(response.bardata);
                                             
-                                            updateBodyPanel(2);
+                                            updateBodyPanel('report');
                                         },
                                         url: '../phpcode/executereport.php'
                                     });
@@ -143,37 +243,38 @@ if (!isset($_SESSION['user']) && !isset($_SESSION['password'])) {
                     <li><a href="#"><?php echo $_SESSION['username'] ?></a></li>
                     <li><a href="../phpcode/logout.php">Salir</a></li>
                 </div>
+                <div id="corpse">
+                    <script type="text/javascript">
+                        Ext.onReady(function() {
+                            var centerpanel = Ext.create('Ext.Panel', {
+                                height: 400,
+                                id: 'centerpanel',
+                                items: [welcomepanel],
+                                layout: 'fit',
+                                region: 'center',
+                                renderTo: 'corpse',
+                                width: 900
+                            });
+                        });
+                    </script>
+                </div>
                 <div id="nav">
                     <div class="catnav">	       
                         <ul class="nav">
-                            <li><a href="javascript:onClick=updateBodyPanel(0)">Inicio</a></li>
+                            <li><a href="javascript:onClick=updateBodyPanel('home')">Inicio</a></li>
                             <li><a href="#">Env&iacute;o de Mensajes</a>
                                 <ul>
-                                    <li><a href="javascript:onClick=updateBodyPanel(1)">Claro</a></li>
-                                    <li><a href="javascript:onClick=updateBodyPanel(1)">Movistar</a></li>
-                                    <li><a href="javascript:onClick=updateBodyPanel(1)">Personalizado</a></li>
+                                    <li><a href="javascript:onClick=updateBodyPanel('claro')">Claro</a></li>
+                                    <li><a href="javascript:onClick=updateBodyPanel('movistar')">Movistar</a></li>
+                                    <li><a href="javascript:onClick=updateBodyPanel('custom')">Personalizado</a></li>
                                 </ul>
                             </li>
-                            <li><a href="javascript:onClick=showFloatableWindow()">Reportes</a></li>
+                            <li><a href="javascript:onClic=showPrefixFloatableWindow()">Prefijos</a></li>
+                            <li><a href="javascript:onClick=showReportFloatableWindow()">Reportes</a></li>
                             <li><a href="#">Administraci&oacute;n</a></li>   
                         </ul>
                     </div>
                 </div>
-            </div>
-            <div id="corpse">
-                <script type="text/javascript">
-                    Ext.onReady(function() {
-                        var centerpanel = Ext.create('Ext.Panel', {
-                            height: 400,
-                            id: 'centerpanel',
-                            items: [welcomepanel],
-                            layout: 'fit',
-                            region: 'center',
-                            renderTo: 'corpse',
-                            width: 900
-                        });
-                    });
-                </script>
             </div>
         </div>
     </body>

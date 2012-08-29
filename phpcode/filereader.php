@@ -12,17 +12,23 @@ if ($_FILES['txtfile']["error"] == 0) {
 
     $filetext = explode(PHP_EOL, $filecontent);
 
+    $counter = 0;
     $datas = array();
     for ($i = 0; $i < sizeof($filetext); $i++) {
         $fileline = explode("\t", $filetext[$i]);
         if (sizeof($fileline) == 2) {
             $filephone = $fileline[0];
+            if (strlen($filephone) != 8)
+                continue;
+            
             $filemessage = trim($fileline[1]);
             $data = null;
-            $data->id = $i + 1;
+            $data->id = $counter + 1;
             $data->phone = $filephone;
             $data->message = $filemessage;
             $datas[$i] = $data;
+            
+            $counter++;
         }
     }
 
