@@ -61,11 +61,6 @@ body {
     z-index: 200;
 }
 
-#bar {
-    background: url(../img/bar.png) repeat right;
-    height: 7px;
-}
-
 .claro-icon {
     background: #E5E9F0 url(../img/claro-48x48.png) no-repeat left !important;
 }

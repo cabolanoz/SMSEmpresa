@@ -160,7 +160,6 @@ if (!isset($_SESSION['user']) && !isset($_SESSION['password'])) {
                     </div>
                 </div>
             </div>
-            <div id="bar"></div>
             <div id="corpse">
                 <script type="text/javascript">
                     Ext.onReady(function() {
