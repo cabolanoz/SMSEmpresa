@@ -20,17 +20,24 @@ if (!isset($_SESSION['user']) && !isset($_SESSION['password'])) {
         <script src="../js/bootstrap.js" type="text/javascript"></script>
         <script src="welcomepanel.js" type="text/javascript"></script>
         <script src="sendmessagepanel.js" type="text/javascript"></script>
+        <script src="customsendmessagepanel.js" type="text/javascript"></script>
         <script src="reportpanel.js" type="text/javascript"></script>
         <script type="text/javascript">
             function updateBodyPanel(val) {
                 Ext.onReady(function() {
                     var centerpanel = Ext.getCmp('centerpanel');
                     centerpanel.removeAll(false);
-                    if (val == 0)
+                    if (val == 'home')
                         centerpanel.add(welcomepanel);
-                    else if (val == 1)
+                    else if (val == 'claro') {
+                        sendmessagepanel.setTitle("Env&iacuteo de Mensajes - Claro");
                         centerpanel.add(sendmessagepanel);
-                    else if (val == 2)
+                    } else if (val == 'movistar') {
+                        sendmessagepanel.setTitle("Env&iacuteo de Mensajes - Movistar");
+                        centerpanel.add(sendmessagepanel);
+                    } else if (val == 'custom')
+                        centerpanel.add(customsendmessagepanel);
+                    else if (val == 'report')
                         centerpanel.add(reportpanel);
                     centerpanel.doLayout();
                     centerpanel.forceComponentLayout();
@@ -80,7 +87,7 @@ if (!isset($_SESSION['user']) && !isset($_SESSION['password'])) {
                                             Ext.data.StoreManager.lookup('piestore').loadData(response.piedata);
                                             Ext.data.StoreManager.lookup('barstore').loadData(response.bardata);
                                             
-                                            updateBodyPanel(2);
+                                            updateBodyPanel('report');
                                         },
                                         url: '../phpcode/executereport.php'
                                     });
@@ -143,38 +150,38 @@ if (!isset($_SESSION['user']) && !isset($_SESSION['password'])) {
                     <li><a href="#"><?php echo $_SESSION['username'] ?></a></li>
                     <li><a href="../phpcode/logout.php">Salir</a></li>
                 </div>
+                <div id="corpse">
+                    <script type="text/javascript">
+                        Ext.onReady(function() {
+                            var centerpanel = Ext.create('Ext.Panel', {
+                                height: 400,
+                                id: 'centerpanel',
+                                items: [welcomepanel],
+                                layout: 'fit',
+                                region: 'center',
+                                renderTo: 'corpse',
+                                width: 900
+                            });
+                        });
+                    </script>
+                </div>
                 <div id="nav">
                     <div class="catnav">	       
                         <ul class="nav">
-                            <li><a href="javascript:onClick=updateBodyPanel(0)">Inicio</a></li>
+                            <li><a href="javascript:onClick=updateBodyPanel('home')">Inicio</a></li>
                             <li><a href="#">Env&iacute;o de Mensajes</a>
                                 <ul>
-                                    <li><a href="javascript:onClick=updateBodyPanel(1)">Claro</a></li>
-                                    <li><a href="javascript:onClick=updateBodyPanel(1)">Movistar</a></li>
-                                    <li><a href="javascript:onClick=updateBodyPanel(1)">Personalizado</a></li>
+                                    <li><a href="javascript:onClick=updateBodyPanel('claro')">Claro</a></li>
+                                    <li><a href="javascript:onClick=updateBodyPanel('movistar')">Movistar</a></li>
+                                    <li><a href="javascript:onClick=updateBodyPanel('custom')">Personalizado</a></li>
                                 </ul>
                             </li>
+                            <li><a href="#">Prefijos</a></li>
                             <li><a href="javascript:onClick=showFloatableWindow()">Reportes</a></li>
                             <li><a href="#">Administraci&oacute;n</a></li>   
                         </ul>
                     </div>
                 </div>
-            </div>
-            <div id="bar"></div>
-            <div id="corpse">
-                <script type="text/javascript">
-                    Ext.onReady(function() {
-                        var centerpanel = Ext.create('Ext.Panel', {
-                            height: 400,
-                            id: 'centerpanel',
-                            items: [welcomepanel],
-                            layout: 'fit',
-                            region: 'center',
-                            renderTo: 'corpse',
-                            width: 900
-                        });
-                    });
-                </script>
             </div>
         </div>
     </body>
