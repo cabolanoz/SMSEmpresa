@@ -27,9 +27,9 @@ if (!isset($_SESSION['user']) && !isset($_SESSION['password'])) {
                 Ext.onReady(function() {
                     var centerpanel = Ext.getCmp('centerpanel');
                     centerpanel.removeAll(false);
-                    if (val == 'home')
+                    if (val == 0)
                         centerpanel.add(welcomepanel);
-                    else if (val == 'claro') {
+                    else if (val == 1) {
                         sendmessagepanel.setTitle("Env&iacuteo de Mensajes - Claro");
                         Ext.getCmp('sendbutton').setIcon('../img/claro-16x16.png');
                         setCompanyName('claro');
@@ -39,7 +39,7 @@ if (!isset($_SESSION['user']) && !isset($_SESSION['password'])) {
                             store.removeAll(false);
                         
                         centerpanel.add(sendmessagepanel);
-                    } else if (val == 'movistar') {
+                    } else if (val == 2) {
                         sendmessagepanel.setTitle("Env&iacuteo de Mensajes - Movistar");
                         Ext.getCmp('sendbutton').setIcon('../img/movistar-16x16.png');
                         setCompanyName('movistar');
@@ -49,7 +49,7 @@ if (!isset($_SESSION['user']) && !isset($_SESSION['password'])) {
                             store.removeAll(false);
                         
                         centerpanel.add(sendmessagepanel);
-                    } else if (val == 'custom') {
+                    } else if (val == 3) {
                         customsendmessagepanel.setTitle("Env&iacuteo de Mensajes Personalizados");
                         centerpanel.add(customsendmessagepanel);
                     } else if (val == 'report')
@@ -70,11 +70,11 @@ if (!isset($_SESSION['user']) && !isset($_SESSION['password'])) {
                     var claroprefixgrid = Ext.create('Ext.grid.Panel', {
                         autoScroll: true,
                         columns: [{
-                            dataIndex: 'value',
-                            flex: 100,
-                            sortable: true,
-                            text: 'Prefijo'
-                        }],
+                                dataIndex: 'value',
+                                flex: 100,
+                                sortable: true,
+                                text: 'Prefijo'
+                            }],
                         store: claroprefixstore,
                         title: 'Claro'
                     });
@@ -88,11 +88,11 @@ if (!isset($_SESSION['user']) && !isset($_SESSION['password'])) {
                     var movistarprefixgrid = Ext.create('Ext.grid.Panel', {
                         autoScroll: true,
                         columns: [{
-                            dataIndex: 'value',
-                            flex: 100,
-                            sortable: true,
-                            text: 'Prefijo'
-                        }],
+                                dataIndex: 'value',
+                                flex: 100,
+                                sortable: true,
+                                text: 'Prefijo'
+                            }],
                         store: movistarprefixstore,
                         title: 'Movistar'
                     });
@@ -101,12 +101,12 @@ if (!isset($_SESSION['user']) && !isset($_SESSION['password'])) {
                         height: 600,
                         id : 'prefixwindow',
                         items: [{
-                            xtype: 'panel',
-                            items: [claroprefixgrid, movistarprefixgrid],
-                            layout: 'accordion',
-                            margins:'5 0 5 5',
-                            region: 'center'
-                        }],
+                                xtype: 'panel',
+                                items: [claroprefixgrid, movistarprefixgrid],
+                                layout: 'accordion',
+                                margins:'5 0 5 5',
+                                region: 'center'
+                            }],
                         layout: 'fit',
                         resizable: false,
                         title: 'Prefijos',
@@ -180,7 +180,7 @@ if (!isset($_SESSION['user']) && !isset($_SESSION['password'])) {
                                             Ext.data.StoreManager.lookup('piestore').loadData(response.piedata);
                                             Ext.data.StoreManager.lookup('barstore').loadData(response.bardata);
                                             
-                                            updateBodyPanel('report');
+                                            updateBodyPanel(4);
                                         },
                                         url: '../phpcode/executereport.php'
                                     });
@@ -261,17 +261,9 @@ if (!isset($_SESSION['user']) && !isset($_SESSION['password'])) {
                 <div id="nav">
                     <div class="catnav">	       
                         <ul class="nav">
-                            <li><a href="javascript:onClick=updateBodyPanel('home')">Inicio</a></li>
-                            <li><a href="#">Env&iacute;o de Mensajes</a>
-                                <ul>
-                                    <li><a href="javascript:onClick=updateBodyPanel('claro')">Claro</a></li>
-                                    <li><a href="javascript:onClick=updateBodyPanel('movistar')">Movistar</a></li>
-                                    <li><a href="javascript:onClick=updateBodyPanel('custom')">Personalizado</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="javascript:onClic=showPrefixFloatableWindow()">Prefijos</a></li>
-                            <li><a href="javascript:onClick=showReportFloatableWindow()">Reportes</a></li>
-                            <li><a href="#">Administraci&oacute;n</a></li>   
+                            <?php
+                            require_once '../phpcode/menugenerator.php';
+                            ?>
                         </ul>
                     </div>
                 </div>

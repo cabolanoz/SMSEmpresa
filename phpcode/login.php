@@ -16,18 +16,21 @@ if (userExist($user, $password)) {
     echo json_encode(false);
 
 function userExist($user, $password) {
-    $sql = "SELECT Nombrecompleto FROM Usuario WHERE Nombreusuario='" . $user . "' AND Contrasenia=MD5('" . $password . "') AND Activo=1 AND Conectado=0";
+    $sql = "SELECT Idperfil, Nombrecompleto FROM Usuario WHERE Nombreusuario='" . $user . "' AND Contrasenia=MD5('" . $password . "') AND Activo=1 AND Conectado=0";
 
     $dbh = DBConnection::getInstance();
 
-    $result = $dbh->query($sql);
-    if ($result->rowCount() == 0)
+    $statement = $dbh->prepare($sql);
+    $statement->execute();
+    $result = $statement->fetchAll();
+    
+    if (count($result) == 0)
         return false;
     else {
         $_SESSION['user'] = $user;
         $_SESSION['password'] = $password;
-        $_SESSION['username'] = $result->fetchColumn(0);
-        $result->closeCursor();
+        $_SESSION['profile'] = $result[0][0];
+        $_SESSION['username'] = $result[0][1];
         return true;
     }
 }

@@ -1,0 +1,30 @@
+2012-08-30 2:32:31 - INFO --> profile 1
+2012-08-30 2:32:31 - INFO --> idmenu 1
+2012-08-30 2:32:31 - INFO --> hasaccess 1
+2012-08-30 2:32:31 - INFO --> profile 1
+2012-08-30 2:32:31 - INFO --> idmenu 2
+2012-08-30 2:32:31 - INFO --> hasaccess 1
+2012-08-30 2:32:31 - INFO --> profile 1
+2012-08-30 2:32:31 - INFO --> idmenu 3
+2012-08-30 2:32:31 - INFO --> hasaccess 1
+2012-08-30 2:32:31 - INFO --> profile 1
+2012-08-30 2:32:31 - INFO --> idmenu 4
+2012-08-30 2:32:31 - INFO --> hasaccess 1
+2012-08-30 2:32:31 - INFO --> profile 1
+2012-08-30 2:32:31 - INFO --> idmenu 5
+2012-08-30 2:32:31 - INFO --> hasaccess 1
+2012-08-30 2:39:38 - INFO --> profile 2
+2012-08-30 2:39:38 - INFO --> idmenu 1
+2012-08-30 2:39:38 - INFO --> hasaccess 1
+2012-08-30 2:39:38 - INFO --> profile 2
+2012-08-30 2:39:38 - INFO --> idmenu 2
+2012-08-30 2:39:38 - INFO --> hasaccess 1
+2012-08-30 2:39:38 - INFO --> profile 2
+2012-08-30 2:39:38 - INFO --> idmenu 3
+2012-08-30 2:39:38 - INFO --> hasaccess 1
+2012-08-30 2:39:38 - INFO --> profile 2
+2012-08-30 2:39:38 - INFO --> idmenu 4
+2012-08-30 2:39:38 - INFO --> hasaccess 
+2012-08-30 2:39:38 - INFO --> profile 2
+2012-08-30 2:39:38 - INFO --> idmenu 5
+2012-08-30 2:39:38 - INFO --> hasaccess 
