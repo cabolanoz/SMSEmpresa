@@ -63,7 +63,7 @@ foreach ($menurows as $row) {
             break;
         case 5:
             if ($hasaccess)
-                $menu = $menu . "<li><a href='#'>" . $row[1] . "</a></li>";
+                $menu = $menu . "<li><a href='javascript:onClick=updateBodyPanel(5)'>" . $row[1] . "</a></li>";
             break;
     }
 }

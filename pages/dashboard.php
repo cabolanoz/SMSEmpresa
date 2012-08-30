@@ -22,6 +22,7 @@ if (!isset($_SESSION['user']) && !isset($_SESSION['password'])) {
         <script src="sendmessagepanel.js" type="text/javascript"></script>
         <script src="customsendmessagepanel.js" type="text/javascript"></script>
         <script src="reportpanel.js" type="text/javascript"></script>
+        <script src="useraccesspanel.js" type="text/javascript"></script>
         <script type="text/javascript">
             function updateBodyPanel(val) {
                 Ext.onReady(function() {
@@ -52,8 +53,32 @@ if (!isset($_SESSION['user']) && !isset($_SESSION['password'])) {
                     } else if (val == 3) {
                         customsendmessagepanel.setTitle("Env&iacuteo de Mensajes Personalizados");
                         centerpanel.add(customsendmessagepanel);
-                    } else if (val == 'report')
+                    } else if (val == 4)
                         centerpanel.add(reportpanel);
+                    else if (val == 5) {
+                        if (Ext.data.StoreManager.lookup('useraccessstore').getRootNode().hasChildNodes())
+                            Ext.data.StoreManager.lookup('useraccessstore').getRootNode().removeAll();
+
+                        Ext.Ajax.request({
+                            failure: function(o) {
+                                Ext.Msg.alert('Env&iacuteo de Mensajes', 'Ha ocurrido un error en la obtenci&oacuten de accesos\nPor favor contacte al administrador del sistema');
+                            },
+                            method: 'GET',
+                            success: function(o) {
+                                var response = Ext.decode(o.responseText);
+                                if (response.items.length == 0) {
+                                    Ext.Msg.alert('Env&iacuteo de Mensajes', 'No se encontraron usuarios y access previamente definidos\nPor favor contacte al administrador del sistema');
+                                    return;
+                                }
+                                
+                                Ext.data.StoreManager.lookup('useraccessstore').getRootNode().appendChild(response.items);
+                                Ext.data.StoreManager.lookup('profilestore').loadData(response.profiles);
+                                centerpanel.add(accessespanel);
+                                Ext.data.StoreManager.lookup('useraccessstore').getRootNode().expand(true);
+                            },
+                            url: '../phpcode/accessesreader.php'
+                        });
+                    }
                     centerpanel.doLayout();
                     centerpanel.forceComponentLayout();
                 });
