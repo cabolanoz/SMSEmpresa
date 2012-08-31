@@ -20,7 +20,7 @@ var useraccesspanel = Ext.create('Ext.tree.Panel', {
         items: [{
             xtype: 'button',
             icon: '../img/useradd-16x16.png',
-            tooltip: 'Agregar usuario'
+            tooltip: 'Nuevo usuario'
         }, {
             xtype: 'button',
             icon: '../img/useredit-16x16.png',
@@ -39,6 +39,37 @@ var useraccesspanel = Ext.create('Ext.tree.Panel', {
     width: 395
 });
 
+var menustore = Ext.create('Ext.data.Store', {
+    autoLoad: false,
+    fields: ['name', 'access'],
+    storeId: 'menustore'
+});
+
+var menugrid = Ext.create('Ext.grid.Panel', {
+    autoScroll: true,
+    clearOnPageLoad: true,
+    collapsible: false,
+    columns: [{
+        align: 'center',
+        dataIndex: 'name',
+        flex: 120,
+        text: 'Nombre'
+    }, {
+        align: 'center',
+        dataIndex: 'access',
+        editor: {
+            xtype: 'checkbox'
+        //            inputValue: true
+        },
+        flex: 50,
+        text: 'Acceso'
+    }],
+    height: 178,
+    store: menustore,
+    title: 'Accesos',
+    width: 478
+});
+
 var profilestore = Ext.create('Ext.data.Store', {
     autoLoad: false,
     fields: ['name', 'description'],
@@ -47,33 +78,66 @@ var profilestore = Ext.create('Ext.data.Store', {
 
 var profilegrid = Ext.create('Ext.grid.Panel', {
     autoScroll: true,
+    bbar: [{
+        xtype: 'toolbar',
+        height: 30,
+        items: [{
+            xtype: 'button',
+            icon: '../img/profileadd-16x16.png',
+            tooltip: 'Nuevo perfil'
+        }],
+        width: 478
+    }],
     clearOnPageLoad: true,
     collapsible: false,
     columns: [{
         align: 'center',
         dataIndex: 'name',
+        flex: 30,
         text: 'Nombre'
     }, {
         align: 'center',
         dataIndex: 'description',
+        flex: 120,
         text: 'Descripción'
     }],
-    store: profilestore
+    listeners: {
+        selectionchange: function(model, records) {
+            var record = records[0];
+            if (record == null)
+                return;
+            
+            Ext.Ajax.request({
+                failure: function(o) {
+                    Ext.Msg.alert('Env&iacuteo de Mensajes', 'Ha ocurrido un error en la obtenci&oacuten de los menues\nPor favor contacte al administrador del sistema');
+                },
+                method: 'GET',
+                params: {
+                    profile: record.get('name')
+                },
+                success: function(o) {
+                    var response = Ext.decode(o.responseText);
+                    if (response.datas.length == 0) {
+                        Ext.Msg.alert('Env&iacuteo de Mensajes', 'No se encontraron los menues previamente definidos\nPor favor contacte al administrador del sistema');
+                        return;
+                    }
+                    
+                    menustore.loadData(response.datas);
+                },
+                url: '../phpcode/menureader.php'
+            });
+        }
+    },
+    height: 170,
+    store: profilestore,
+    title: 'Perfiles',
+    width: 478
 });
 
 var rightpanel = Ext.create('Ext.panel.Panel', {
     bodyPadding: 5,
     height: 360,
-    items: [profilegrid, {
-        xtype: 'grid',
-        columns: [{
-            header: 'Column One'
-        }],
-        flex: 1,
-        store: Ext.create('Ext.data.ArrayStore', {}),
-        title: 'Accesos',
-        width: 478
-    }],
+    items: [profilegrid, menugrid],
     layout: 'vbox',
     width: 490
 });

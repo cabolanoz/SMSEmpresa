@@ -46,7 +46,7 @@ var customsendmessagepanel = new Ext.form.Panel({
         xtype: 'label',
         margin: '0 0 0 370',
         style: 'color: #FE0000',
-        text: 'Nota: Los números telefónicos deben estar separados por coma y con una longitud estandar'
+        text: 'Nota: Los n&uacutemeros telef&oacutenicos deben estar separados por coma y con una longitud estandar'
     }],
 
     buttons: [{

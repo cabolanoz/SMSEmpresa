@@ -58,6 +58,14 @@ if (!isset($_SESSION['user']) && !isset($_SESSION['password'])) {
                     else if (val == 5) {
                         if (Ext.data.StoreManager.lookup('useraccessstore').getRootNode().hasChildNodes())
                             Ext.data.StoreManager.lookup('useraccessstore').getRootNode().removeAll();
+                        
+                        var _profilestore = Ext.data.StoreManager.lookup('profilestore');
+                        if (_profilestore.count() > 0)
+                            _profilestore.removeAll(false);
+                        
+                        var _menustore = Ext.data.StoreManager.lookup('menustore');
+                        if (_menustore.count() > 0)
+                            _menustore.removeAll(false);
 
                         Ext.Ajax.request({
                             failure: function(o) {
