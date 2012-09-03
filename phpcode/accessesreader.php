@@ -21,9 +21,11 @@ $j = 0;
 $profiles = array();
 
 foreach ($profileresult as $row) {
+    $profileid = $row[0];
     $profilename = $row[1];
     $profiledescription = $row[2];
     
+    $profiles[$j]->id = $profileid;
     $profiles[$j]->name = $profilename;
     $profiles[$j]->description = $profiledescription;
     

@@ -15,7 +15,7 @@ useraccessstore.setRootNode({
 
 var profilestore = Ext.create('Ext.data.Store', {
     autoLoad: false,
-    fields: ['name', 'description'],
+    fields: ['id', 'name', 'description'],
     storeId: 'profilestore'
 });
 
@@ -64,26 +64,27 @@ var useraccesspanel = Ext.create('Ext.tree.Panel', {
                                 return;
                             }
                             
-//                            Ext.Ajax.request({
-//                                failure: function(o) {
-//                                    Ext.Msg.alert('Env&iacuteo de Mensajes', 'Ha ocurrido un error en la inserci&oacuten del registro de usuario\nPor favor contacte al administrador del sistema');
-//                                },
-//                                method: 'GET',
-//                                params: {
-//                                    username: username,
-//                                    name: name,
-//                                    password: password,
-//                                    profile: profile
-//                                },
-//                                success: function(o) {
-//                                    var response = Ext.decode(o.responseText);
-//                                    if (response.success == 'OK') {
-//                                        Ext.Msg.alert('Env&iacuteo de Mensajes', 'Usuario registrado con &eacutexito');
-//                                        return;
-//                                    }
-//                                },
-//                                url: '../phpcode/registeruser.php'
-//                            });
+                            Ext.Ajax.request({
+                                failure: function(o) {
+                                    Ext.Msg.alert('Env&iacuteo de Mensajes', 'Ha ocurrido un error en la inserci&oacuten del registro de usuario\nPor favor contacte al administrador del sistema');
+                                },
+                                method: 'GET',
+                                params: {
+                                    username: username,
+                                    name: name,
+                                    password: password,
+                                    profile: profile
+                                },
+                                success: function(o) {
+                                    var response = Ext.decode(o.responseText);
+                                    if (response.success == 'OK') {
+                                        newuser.hide();
+                                        Ext.Msg.alert('Env&iacuteo de Mensajes', 'Usuario registrado con &eacutexito');
+                                        updateUserStore();
+                                    }
+                                },
+                                url: '../phpcode/registeruser.php'
+                            });
                         }
                     }, {
                         text: 'Cancelar',
@@ -147,7 +148,7 @@ var useraccesspanel = Ext.create('Ext.tree.Panel', {
                             labelWidth: 150,
                             queryMode: 'local',
                             store: profilestore,
-                            valueField: 'name',
+                            valueField: 'id',
                             width: 450
                         }]
                     }],
@@ -287,3 +288,26 @@ var accessespanel = Ext.create('Ext.panel.Panel', {
     title: 'Usuarios -> Perfiles -> Accessos',
     width: 900
 });
+
+function updateUserStore() {
+    if (useraccessstore.getRootNode().hasChildNodes())
+        useraccessstore.getRootNode().removeAll();
+    
+    Ext.Ajax.request({
+        failure: function(o) {
+            Ext.Msg.alert('Env&iacuteo de Mensajes', 'Ha ocurrido un error en la obtenci&oacuten de accesos\nPor favor contacte al administrador del sistema');
+        },
+        method: 'GET',
+        success: function(o) {
+            var response = Ext.decode(o.responseText);
+            if (response.items.length == 0) {
+                Ext.Msg.alert('Env&iacuteo de Mensajes', 'No se encontraron usuarios y access previamente definidos\nPor favor contacte al administrador del sistema');
+                return;
+            }
+                                
+            useraccessstore.getRootNode().appendChild(response.items);
+            useraccessstore.getRootNode().expand(true);
+        },
+        url: '../phpcode/accessesreader.php'
+    });
+}

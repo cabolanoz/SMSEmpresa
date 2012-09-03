@@ -31,6 +31,18 @@ function userExist($user, $password) {
         $_SESSION['password'] = $password;
         $_SESSION['profile'] = $result[0][0];
         $_SESSION['username'] = $result[0][1];
+        
+        try {
+            $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $dbh->beginTransaction();
+        
+            $newsql = "Update Usuario Set Conectado = b'1' Where Nombreusuario = '" . $user . "'";
+            $dbh->exec($newsql);
+            $dbh->commit();
+        } catch (Exception $e) {
+            
+        }
+        
         return true;
     }
 }
