@@ -46,7 +46,7 @@ var customsendmessagepanel = new Ext.form.Panel({
         xtype: 'label',
         margin: '0 0 0 370',
         style: 'color: #FE0000',
-        text: 'Nota: Los n&uacutemeros telef&oacutenicos deben estar separados por coma y con una longitud estandar'
+        text: 'Nota: Los números telefónicos deben estar separados por coma y con una longitud estandar'
     }],
 
     buttons: [{
@@ -59,8 +59,37 @@ var customsendmessagepanel = new Ext.form.Panel({
                 return;
             }
             
+            var content = '';
             var numbers = number.split(',');
-            console.log(numbers);
+            for (var i = 0; i < numbers.length; i++)
+                if (numbers[i] != null && numbers[i] != '')
+                    content = content + '|' + Ext.String.trim(numbers[i]) + '->' + (message + i);
+            
+            var company = Ext.getCmp('claro').getValue() ? 'claro' : 'movistar';
+            
+            var waitMsg = Ext.Msg.wait('Enviando mensaje (s)...');
+            
+            Ext.Ajax.request({
+                failure: function(o) {
+                    waitMsg.hide();
+                    Ext.Msg.alert('Env&iacuteo de Mensajes', 'Ha ocurrido un error en el env&iacuteo de los mensajes\nPor favor contacte al administrador del sistema');
+                },
+                method: 'GET',
+                params: {
+                    company_type: company,
+                    datas: content  
+                },
+                success: function(o) {
+                    waitMsg.hide();
+                    var response = Ext.decode(o.responseText);
+                    if (response.datas.length == 0) {
+                        Ext.Msg.alert('Env&iacuteo de Mensajes', 'Mensajes env&iacuteados con &eacutexito');
+                        Ext.getCmp('txtmessage').setValue('');
+                        Ext.getCmp('txtnumber').setValue('');
+                    }
+                },
+                url: '../phpcode/messagesender.php'
+            });
         }
     }, {
         text: 'Cancelar',
