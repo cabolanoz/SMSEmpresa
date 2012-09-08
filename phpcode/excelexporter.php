@@ -17,7 +17,7 @@ header("Content-Type: application/vnd.ms-excel");
 header("Pragma: no-cache");
 header("Expires: 0");
 
-$content = explode('|', $_GET['a']);
+$content = explode('|', $_POST['a']);
 $recordnbr = count($content) - 1;
 
 if ($recordnbr != 0) {
