@@ -18,6 +18,7 @@ if (!isset($_SESSION['user']) && !isset($_SESSION['password'])) {
         <script src="../js/ext-all.js" type="text/javascript"></script>
         <script src="../js/ext-all-debug.js" type="text/javascript"></script>
         <script src="../js/bootstrap.js" type="text/javascript"></script>
+        <script src="../js/CheckColumn.js" type="text/javascript"></script>
         <script src="welcomepanel.js" type="text/javascript"></script>
         <script src="sendmessagepanel.js" type="text/javascript"></script>
         <script src="customsendmessagepanel.js" type="text/javascript"></script>
@@ -142,6 +143,13 @@ if (!isset($_SESSION['user']) && !isset($_SESSION['password'])) {
                             }],
                         layout: 'fit',
                         resizable: false,
+                        tbar: [{
+                                xtype: 'button',
+                                handler: function() {
+                                    console.log("testing");
+                                },
+                                text: 'Agregar prefijo'
+                            }],
                         title: 'Prefijos',
                         width: 100
                     });

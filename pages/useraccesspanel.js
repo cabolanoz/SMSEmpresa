@@ -164,6 +164,9 @@ var useraccesspanel = Ext.create('Ext.tree.Panel', {
             tooltip: 'Nuevo usuario'
         }, {
             xtype: 'button',
+            handler: function() {
+                
+            },
             icon: '../img/useredit-16x16.png',
             tooltip: 'Editar usuario'
         }],
@@ -180,9 +183,23 @@ var useraccesspanel = Ext.create('Ext.tree.Panel', {
     width: 395
 });
 
+Ext.define('Menu', {
+    extend: 'Ext.data.Model',
+    fields: [
+    {
+        name: 'name', 
+        type: 'string'
+    },
+    {
+        name: 'access', 
+        type: 'bool'
+    }
+    ]
+});
+
 var menustore = Ext.create('Ext.data.Store', {
     autoLoad: false,
-    fields: ['name', 'access'],
+    model: 'Menu',
     storeId: 'menustore'
 });
 
@@ -192,20 +209,25 @@ var menugrid = Ext.create('Ext.grid.Panel', {
     collapsible: false,
     columns: [{
         align: 'center',
+        header: 'Nombre',
         dataIndex: 'name',
-        flex: 120,
-        text: 'Nombre'
+        flex: 120
     }, {
         align: 'center',
+        header: 'Acceso',
         dataIndex: 'access',
-        editor: {
-            xtype: 'checkbox',
-            inputValue: true
-        },
-        flex: 50,
-        text: 'Acceso'
+        flex: 55,
+        renderer:function(value){
+            var text = '<input type="checkbox"';
+            if(value == true)
+                text += ' checked="checked"';
+            return text + '/>';
+        }
     }],
     height: 178,
+    selModel: {
+        selType: 'cellmodel'
+    },
     store: menustore,
     title: 'Accesos',
     width: 478
@@ -256,7 +278,6 @@ var profilegrid = Ext.create('Ext.grid.Panel', {
                         Ext.Msg.alert('Env&iacuteo de Mensajes', 'No se encontraron los menues previamente definidos\nPor favor contacte al administrador del sistema');
                         return;
                     }
-                    
                     menustore.loadData(response.datas);
                 },
                 url: '../phpcode/menureader.php'
